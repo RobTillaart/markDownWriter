@@ -19,7 +19,7 @@ markDownWriter::markDownWriter(Print* stream)
 
 void markDownWriter::reset()
 {
-  _bytesOut    = 0;
+  _bytesOut = 0;
 }
 
 
@@ -55,9 +55,10 @@ void markDownWriter::tableHeader(uint8_t size, const char headers[][12], const c
   // alignments
   for (int i = 0; i < _tableSize; i++)
   {
-    if (align[i] == 'L') _stream->print("|:-------");
-    if (align[i] == 'C') _stream->print("|:------:");
-    if (align[i] == 'R') _stream->print("|-------:");
+    char c = toupper(align[i]);
+    if (c == 'L')      _stream->print("|:-------");
+    else if (c == 'R') _stream->print("|-------:");
+    else               _stream->print("|:------:");  //  default.
   }
   _stream->println("|");
 }

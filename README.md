@@ -20,9 +20,19 @@ Arduino library for creating simple mark down content.
 
 This library is written to be able to generate simple mark down reports.
 
-Not all functionality is perfect but good enough for now.
+The library supports only a part of the mark down functionality, including headers on several levels, bold and italic styles, the creation of tables 
+and external links. 
 
-If needed, improvements will be made.
+The markDOwnWriter prints to a stream, default **Serial**, bit other streams
+like **file**, **SD**, **socket** are possible (not tested yet).
+
+The library is work in progress and not all functionality works perfect,
+but is good enough to get started for now.
+
+Core reason to write this library was to speed up creation of tables
+with measurements.
+
+If needed, additional functionality or improvements will be made on request.
 
 As always feedback is welcome.
 
@@ -30,24 +40,22 @@ As always feedback is welcome.
 ### Print interface
 
 The markDownWriter implements the print interface allowing
-to print all data types in theory. However the table interface
-does only support floats, default with 2 decimals.
+to print all data types in theory. 
+However the current table interface (0.1.0) does only support floats, 
+default with 2 decimals. This has priority to improve.
 
 See future section.
 
 
 ### Related
 
-- https://www.markdownguide.org/basic-syntax/
-- https://github.com/RobTillaart/XMLWriter ?
-
-[![XML](https://github.com/RobTillaart/XMLWriter)
+- https://www.markdownguide.org/basic-syntax/ reference
+- https://github.com/RobTillaart/XMLWriter just a format writer.
 
 
 ### Tested
 
-Tested on Arduino UNO R3.
-
+Tested on Arduino UNO R3, OK only one simple demo sketch.
 
 
 ## Interface
@@ -58,9 +66,9 @@ Tested on Arduino UNO R3.
 
 ### Constructor
 
-- **markDownWriter(Print \* stream = &Serial, uint8_t bufferSize = 10)** constructor.
-Default Serial and buffer size of 10.
-- **bool reset()** reset internal buffer administration.
+- **markDownWriter(Print \* stream = &Serial)** constructor with 
+default stream. Other streams e.g. SD
+- **bool reset()** reset internals.
 
 
 ### Headers
@@ -75,8 +83,8 @@ Default Serial and buffer size of 10.
 ### Style
 
 These functions work, but not perfect.
-The ...off() functions adds a space after the markup.
-These functions do not mix
+The ...off() functions add a space after the markup.
+These functions do not mix well so use carefully
 
 - **void boldOn()** idem.
 - **void boldOff()** idem.
@@ -84,20 +92,26 @@ These functions do not mix
 - **void italicOFF()** idem.
 - **void boldItalicOn()** idem.
 - **void boldItalicOff()** idem.
+- **void line()** draw a line in the report. (splitter).
 
 
 ### Tables
 
+Initial the tables are simple, with headers of max 11 characters.
+The align array consist of L=Left, C=Centre, R=Right alignment.
+The align array should at least have size elements and is case insensitive.
+invalid chars for align are centred (default).
+
 - **void tableHeader(uint8_t size, char headers[][12], char \* align = "CCCCCCCCCC")**
-- **void tableValues(float values[])**
+- **void tableValues(float values[])** values must be at least contain **size** elements as defined in **tableHeader()**. 
+
+Tables need improvement.
 
 
 ### Links
 
-
-### Miscellaneous
-
-- **void line()**
+- **void URL(const char \* text, const char \* link)** idem.
+- **void link(const char \* link)** idem.
 
 
 ## Future
@@ -106,21 +120,28 @@ These functions do not mix
 
 - improve documentation
 - improve other data types in tables
-  - e.g. set nr decimals for all columns?
-  - don't make it to configurable.
+  - e.g. set number of decimals for all columns?
+  - write per column (?)
+  - don't make it to configurable (!)
 
 #### Should
 
+- add examples (see XML writer)
+  - other streams like SD card or HTTP sockets
+  - performance
+- investigate internal buffering.
+- escaping characters in text fields e.g. \* ?
+
 #### Could
 
-- extend functionality (not needed yet)
+- extend functionality (on request)
   - BulletListOn  (unordered list)
   - BulletListOff
   - NumberListOn  (ordered lists) - nesting ?
   - NumberListOff
   - Image(text, link)  ![Tux, the Linux mascot](/assets/images/tux.png)
   - blockQuote - nesting ?
-  - code block
+  - code block and style.
 
 
 #### Wont
