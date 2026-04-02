@@ -30,7 +30,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "MARKDOWNWRITER_LIB_VERSION: %s\n", (char *) markDownWriter_LIB_VERSION);
+  fprintf(stderr, "MARKDOWNWRITER_LIB_VERSION: %s\n", (char *) MARKDOWNWRITER_LIB_VERSION);
 }
 
 
