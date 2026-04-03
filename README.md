@@ -95,7 +95,7 @@ These functions do not mix well so use carefully
 - **void line()** draw a line in the report. (splitter).
 
 
-### Tables
+### Tables I
 
 Initial the tables are simple, with headers of max 11 characters.
 The align array consist of L=Left, C=Centre, R=Right alignment.
@@ -106,7 +106,18 @@ invalid chars for align are centred (default).
 - **void tableValues(float values[], uint8_t decimals = 2)** values must be at least contain **size** elements as defined in **tableHeader()**.
 Decimals is set for this row. Not nice but works for now.
 
-Tables need improvement.
+### Tables II
+
+Functions to create a row per cell / column. 
+Allows every column its own type.
+User must do the admin to print enough cells.
+
+- **void tableRowStart()**
+- **void tableRowValue(const char \* text)**
+- **void tableRowValue(float value, uint8_t decimals = 2)**
+- **void tableRowValue(uint32_t value)**
+- **void tableRowValue(int32_t value)**
+- **void tableRowEnd()** 
 
 
 ### Links
@@ -124,12 +135,6 @@ Tables need improvement.
 
 #### Should
 
-- improve tables other data types in tables
-  - set number of decimals per columns
-    - **void tableDecimals(uint8_t values[])**
-    - needs to be kept between calls, default = 2?
-  - write row per column (investigate, admin needed)
-  - keep it simple => don't make it to configurable (!)
 
 #### Could
 
@@ -138,18 +143,17 @@ Tables need improvement.
 - escaping characters in text fields e.g. \* ?
 - void blockQuote(text) - nesting ?
 - void code(text)
-- void codeBlockOn() / Off()
+- void codeBlockOn() / codeBlockOff()
 - simple style calls for single words.
   - void bold(text) and void italic(text).
   - void bold(float, dec = 0) and void italic(float, dec = 0).
 - lists API
-  - pointListBegin()       (unordered list)
+  - pointListBegin(indent)       (unordered list)
   - pointListItem(text)
   - pointListEnd(footer)
-  - numberListBegin()      (ordered lists) - nesting ?
+  - numberListBegin(indent)      (ordered lists) - nesting ?
   - numberListItem(text)
   - numberListEnd(footer)
-
 
 
 #### Wont

@@ -40,7 +40,18 @@ public:
 
   //  TABLES
   void tableHeader(uint8_t size, const char headers[][12], const char * align = "CCCCCCCCCC");
+  
+  //  row at a time.
   void tableValues(float values[], uint8_t decimals = 2);
+
+  //  per cell API.
+  void tableRowStart();
+  void tableRowValue(const char * text);
+  void tableRowValue(float value, uint8_t decimals = 2);
+  void tableRowValue(uint32_t value);
+  void tableRowValue(int32_t value);
+  void tableRowEnd();
+
 
   //  LINKS
   void URL(const char * text, const char * link);

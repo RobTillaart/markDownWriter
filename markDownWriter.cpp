@@ -82,6 +82,40 @@ void markDownWriter::tableValues(float values[], uint8_t decimals)
   println();
 }
 
+void markDownWriter::tableRowStart()
+{
+  print("| ");
+};
+
+void markDownWriter::tableRowValue(const char * text)
+{
+  print(text);
+  print(" | ");
+}
+
+void markDownWriter::tableRowValue(float value, uint8_t decimals)
+{
+  print(value, decimals);
+  print(" | ");
+}
+
+void markDownWriter::tableRowValue(uint32_t value)
+{
+  print(value);
+  print(" | ");
+}
+
+void markDownWriter::tableRowValue(int32_t value)
+{
+  print(value);
+  print(" | ");
+}
+
+void markDownWriter::tableRowEnd()
+{
+  println();
+}
+
 
 ////////////////////////////////////////////////////////////////////
 //

@@ -26,6 +26,11 @@ line	KEYWORD2
 tableHeader	KEYWORD2
 tableValues	KEYWORD2
 
+tableRowStart	KEYWORD2
+tableRowValue	KEYWORD2
+tableRowEnd	KEYWORD2
+
+
 URL	KEYWORD2
 image	KEYWORD2
 link	KEYWORD2
