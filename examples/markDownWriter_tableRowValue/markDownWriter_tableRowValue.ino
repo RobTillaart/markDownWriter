@@ -35,10 +35,12 @@ void setup()
   //  table values
   for (int i = 0; i < 7; i++)
   {
+    float temp = 20.0 + random(50) * 0.1;
+    int32_t hum = 40 + random(10);
     mdw.tableRowStart();
     mdw.tableRowValue(days[i]);
-    mdw.tableRowValue(20.0 + random(50) * 0.1, 1);
-    mdw.tableRowValue((int32_t) 40 + random(10));
+    mdw.tableRowValue(temp, 1);
+    mdw.tableRowValue(hum);
     mdw.tableRowEnd();
   }
 
