@@ -19,6 +19,11 @@ markDownWriter::markDownWriter(Print* stream, uint8_t bufferSize)
   reset();
 }
 
+markDownWriter::~markDownWriter()
+{
+  if (_buffer != NULL) free(_buffer);
+}
+
 void markDownWriter::reset()
 {
   _bufferIndex = 0;

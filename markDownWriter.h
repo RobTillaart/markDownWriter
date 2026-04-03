@@ -17,6 +17,7 @@ class markDownWriter : public Print
 {
 public:
   markDownWriter(Print* stream = &Serial, uint8_t bufferSize = 10);
+  ~markDownWriter();
 
   void reset();
 
