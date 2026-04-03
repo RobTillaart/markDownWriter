@@ -38,7 +38,7 @@ void setup()
     mdw.tableRowStart();
     mdw.tableRowValue(days[i]);
     mdw.tableRowValue(20.0 + random(50) * 0.1, 1);
-    mdw.tableRowValue(40 + random(10));
+    mdw.tableRowValue((int32_t) 40 + random(10));
     mdw.tableRowEnd();
   }
 
