@@ -54,7 +54,18 @@ void setup()
   mdw.tableHeader(5, hdrs, align);
 
   //  table values
-  for (int i = 0; i < 15; i = i + 3)
+  for (int i = 0; i < 7; i = i + 3)
+  {
+    float v[5];
+    v[0] = i;
+    v[1] = i * sqrt(i);
+    v[2] = atan2(v[1], v[0]);
+    v[3] = hypot(v[0], v[1]);
+    v[4] = random(255);
+    mdw.tableValues(v, 0);
+  }
+  //  2 decimals
+  for (int i = 0; i < 7; i = i + 3)
   {
     float v[5];
     v[0] = i;
@@ -63,6 +74,17 @@ void setup()
     v[3] = hypot(v[0], v[1]);
     v[4] = random(255);
     mdw.tableValues(v);
+  }
+  //  4 decimals
+  for (int i = 0; i < 7; i = i + 3)
+  {
+    float v[5];
+    v[0] = i;
+    v[1] = i * sqrt(i);
+    v[2] = atan2(v[1], v[0]);
+    v[3] = hypot(v[0], v[1]);
+    v[4] = random(255);
+    mdw.tableValues(v, 4);
   }
 
   mdw.chapter("Test link");

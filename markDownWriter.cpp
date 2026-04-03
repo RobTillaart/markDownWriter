@@ -11,14 +11,17 @@
 #include "markDownWriter.h"
 
 
-markDownWriter::markDownWriter(Print* stream)
+markDownWriter::markDownWriter(Print* stream, uint8_t bufferSize)
 {
+  _bufferSize = constrain(bufferSize, 2, 250);
+  _buffer = (char *) malloc(_bufferSize);
   _stream = stream;
   reset();
 }
 
 void markDownWriter::reset()
 {
+  _bufferIndex = 0;
   _bytesOut = 0;
 }
 
@@ -29,11 +32,11 @@ void markDownWriter::reset()
 //
 void markDownWriter::header(uint8_t level, const char * text)
 {
-  _stream->println();
-  for (int i = 0; i < level; i++) _stream->print('#');
-  _stream->print(' ');
-  _stream->println(text);
-  _stream->println();
+  println();
+  for (int i = 0; i < level; i++) print('#');
+  print(' ');
+  println(text);
+  println();
 }
 
 
@@ -45,33 +48,33 @@ void markDownWriter::tableHeader(uint8_t size, const char headers[][12], const c
 {
   _tableSize = size;
   //  headers
-  _stream->println();
+  println();
   for (int i = 0; i < _tableSize; i++)
   {
-    _stream->print("| ");
-    _stream->print(headers[i]);
+    print("| ");
+    print(headers[i]);
   }
-  _stream->println(" |");
+  println(" |");
   // alignments
   for (int i = 0; i < _tableSize; i++)
   {
     char c = toupper(align[i]);
-    if (c == 'L')      _stream->print("|:-------");
-    else if (c == 'R') _stream->print("|-------:");
-    else               _stream->print("|:------:");  //  default.
+    if (c == 'L')      print("|:-------");
+    else if (c == 'R') print("|-------:");
+    else               print("|:------:");  //  default.
   }
-  _stream->println("|");
+  println("|");
 }
 
-void markDownWriter::tableValues(float values[])
+void markDownWriter::tableValues(float values[], uint8_t decimals)
 {
-  _stream->print("| ");
+  print("| ");
   for (int i = 0; i < _tableSize; i++)
   {
-    _stream->print(values[i]);
-    _stream->print(" | ");
+    print(values[i], decimals);
+    print(" | ");
   }
-  _stream->println();
+  println();
 }
 
 
@@ -81,19 +84,46 @@ void markDownWriter::tableValues(float values[])
 //
 void markDownWriter::URL(const char * text, const char * link)
 {
-  _stream->print("[");
-  _stream->print(text);
-  _stream->print("](");
-  _stream->print(link);
-  _stream->print(")");
+  print("[");
+  print(text);
+  print("](");
+  print(link);
+  print(")");
+}
+
+void markDownWriter::image(const char * text, const char * link)
+{
+  print("![");
+  print(text);
+  print("](");
+  print(link);
+  print(")");
 }
 
 void markDownWriter::link(const char * link)
 {
-  _stream->print("<");
-  _stream->print(link);
-  _stream->print(">");
+  print("<");
+  print(link);
+  print(">");
 }
+
+
+////////////////////////////////////////////////////////////////////
+//
+//  PRINT INTERFACE override
+//
+void markDownWriter::flush()
+{
+  _bytesOut += _bufferIndex;
+  if (_bufferIndex > 0)
+  {
+    _buffer[_bufferIndex] = 0;
+    _stream->write(_buffer, _bufferIndex);  //  saves ~40 bytes on UNO.
+    //  _stream->print(_buffer);
+    _bufferIndex = 0;
+  }
+}
+
 
 
 ///////////////////////////////////////////////
@@ -102,8 +132,12 @@ void markDownWriter::link(const char * link)
 //
 size_t markDownWriter::write(uint8_t c)
 {
-  //  no buffering
-  return _stream->write(c);
+  _buffer[_bufferIndex++] = c;
+  if (_bufferIndex == (_bufferSize - 1))
+  {
+    flush();
+  }
+  return 1;
 }
 
 

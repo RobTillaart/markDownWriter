@@ -103,7 +103,8 @@ The align array should at least have size elements and is case insensitive.
 invalid chars for align are centred (default).
 
 - **void tableHeader(uint8_t size, char headers[][12], char \* align = "CCCCCCCCCC")**
-- **void tableValues(float values[])** values must be at least contain **size** elements as defined in **tableHeader()**. 
+- **void tableValues(float values[], uint8_t decimals = 2)** values must be at least contain **size** elements as defined in **tableHeader()**.
+Decimals is set for this row. Not nice but works for now.
 
 Tables need improvement.
 
@@ -111,7 +112,8 @@ Tables need improvement.
 ### Links
 
 - **void URL(const char \* text, const char \* link)** idem.
-- **void link(const char \* link)** idem.
+- **void image(const char \* text, const char \* link)** idem.
+- **void link(const char \* link)** simple link.
 
 
 ## Future
@@ -119,32 +121,40 @@ Tables need improvement.
 #### Must
 
 - improve documentation
-- improve other data types in tables
-  - e.g. set number of decimals for all columns?
-  - write per column (?)
-  - don't make it to configurable (!)
 
 #### Should
 
-- add examples (see XML writer)
-  - other streams like SD card or HTTP sockets
-  - performance
-- investigate internal buffering.
-- escaping characters in text fields e.g. \* ?
+- improve tables other data types in tables
+  - set number of decimals per columns
+    - **void tableDecimals(uint8_t values[])**
+    - needs to be kept between calls, default = 2?
+  - write row per column (investigate, admin needed)
+  - keep it simple => don't make it to configurable (!)
 
 #### Could
 
-- extend functionality (on request)
-  - BulletListOn  (unordered list)
-  - BulletListOff
-  - NumberListOn  (ordered lists) - nesting ?
-  - NumberListOff
-  - Image(text, link)  ![Tux, the Linux mascot](/assets/images/tux.png)
-  - blockQuote - nesting ?
-  - code block and style.
+- add examples (see XML writer)
+  - other streams like SD card and HTTP sockets
+- escaping characters in text fields e.g. \* ?
+- void blockQuote(text) - nesting ?
+- void code(text)
+- void codeBlockOn() / Off()
+- simple style calls for single words.
+  - void bold(text) and void italic(text).
+  - void bold(float, dec = 0) and void italic(float, dec = 0).
+- lists API
+  - pointListBegin()       (unordered list)
+  - pointListItem(text)
+  - pointListEnd(footer)
+  - numberListBegin()      (ordered lists) - nesting ?
+  - numberListItem(text)
+  - numberListEnd(footer)
+
 
 
 #### Wont
+
+- performance example (not needed)
 
 
 ## Support

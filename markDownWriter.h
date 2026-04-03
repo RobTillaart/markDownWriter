@@ -16,7 +16,7 @@
 class markDownWriter : public Print
 {
 public:
-  markDownWriter(Print* stream = &Serial);
+  markDownWriter(Print* stream = &Serial, uint8_t bufferSize = 10);
 
   void reset();
 
@@ -39,11 +39,13 @@ public:
 
   //  TABLES
   void tableHeader(uint8_t size, const char headers[][12], const char * align = "CCCCCCCCCC");
-  void tableValues(float values[]);
+  void tableValues(float values[], uint8_t decimals = 2);
 
   //  LINKS
   void URL(const char * text, const char * link);
+  void image(const char * text, const char * link);
   void link(const char * link);
+
 
 /* TODO
 
@@ -56,8 +58,15 @@ Image(uint16_t width, uint16_t height, const char * altText, const char * link)
 
 */
 
-//  debug
-//  return _bytesOut;
+  //  One need to call flush() at the end of writing to empty the internal buffer.
+  //  Note: this is overridden of the Print interface
+  bool  needFlush() { return _bufferIndex > 0; };
+  void  flush();
+
+  //  debug metrics
+  uint8_t  bufferIndex()  { return _bufferIndex; };
+  uint32_t bytesWritten() { return _bytesOut; };
+
 
 private:
   //  output stream, Print Class
@@ -65,7 +74,11 @@ private:
   size_t   write(uint8_t c);
 
   //  output admin
+  char *   _buffer;
+  uint8_t  _bufferSize;
+  uint8_t  _bufferIndex;
   uint32_t _bytesOut;
+  //  tables
   uint8_t  _tableSize = 0;
 };
 
