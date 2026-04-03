@@ -58,8 +58,9 @@ void markDownWriter::tableHeader(uint8_t size, const char headers[][12], const c
   {
     print("| ");
     print(headers[i]);
+    println(" ");
   }
-  println(" |");
+  println("|");
   // alignments
   for (int i = 0; i < _tableSize; i++)
   {
