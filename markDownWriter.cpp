@@ -142,12 +142,11 @@ void markDownWriter::link(const char * link)
 //
 void markDownWriter::flush()
 {
-  _bytesOut += _bufferIndex;
   if (_bufferIndex > 0)
   {
+    _bytesOut += _bufferIndex;
     _buffer[_bufferIndex] = 0;
     _stream->write(_buffer, _bufferIndex);
-    //  _stream->print(_buffer);
     _bufferIndex = 0;
   }
 }
@@ -159,10 +158,12 @@ void markDownWriter::flush()
 //
 size_t markDownWriter::write(uint8_t c)
 {
-  //  no stream;
-  if (_stream == NULL) return 0;
   //  if unbuffered
-  if (_bufferSize <= 1) return _stream->write(c);
+  if (_bufferSize <= 1)
+  {
+    _bytesOut++;
+    return _stream->write(c);
+  }
 
   _buffer[_bufferIndex++] = c;
   if (_bufferIndex == (_bufferSize - 1))

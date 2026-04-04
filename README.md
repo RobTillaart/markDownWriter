@@ -43,11 +43,11 @@ As always feedback is welcome.
 ### Print interface
 
 The markDownWriter implements the print interface allowing to print 
-all data types in theory. 
-The current table interface does support floats, int32_t and uint32_t, 
-and char arrays. Casting might be needed.
+all data types, including floats with decimals, signed and unsigned integers.
 
 ```
+MDW.header(3, "kitchen");
+
 MDW.print("TempC: ");
 MDW.println(temperature, 1);
 ```
@@ -55,7 +55,9 @@ MDW.println(temperature, 1);
 ### Related
 
 - https://www.markdownguide.org/basic-syntax/ reference
-- https://github.com/RobTillaart/XMLWriter just a format writer.
+- https://github.com/RobTillaart/markDownWriter simple mark down content.
+- https://github.com/RobTillaart/XMLWriter an XML format writer.
+- https://github.com/RobTillaart/lineFormatter tabular output on Serial.
 
 
 ### Tested
@@ -75,12 +77,13 @@ Tested on Arduino UNO R3 with demo sketches.
 default stream. Other streams e.g. SD, socket etc. are possible.
 By setting the bufferSize to 0 or 1 there will be no buffering.
 Max bufferSize == 250
+- **~markDownWriter()** destructor.
 - **bool reset()** reset internals.
 
 
 ### Headers
 
-- **void header(uint8_t level, const char \* text);)** header at level n.
+- **void header(uint8_t level, const char \* text)** header at level n.
 Note that level 1 is largest font, and MarkDown supports up to level 6.
 - **void title(const char \* str)** wrapper for header level 1.
 - **void chapter(const char \* str)** wrapper for header level 2.
@@ -92,7 +95,7 @@ Note that level 1 is largest font, and MarkDown supports up to level 6.
 
 These functions work, but not perfect.
 The ...off() functions add a space after the markup.
-These functions do not mix well so use carefully
+These functions do not mix well so use carefully.
 
 - **void boldOn()** idem.
 - **void boldOff()** idem.
