@@ -148,8 +148,6 @@ with decimals (default = 2).
 
 #### Should
 
-- investigate Template function for tableRowValue()
-
 #### Could
 
 - add examples (see XML writer)
