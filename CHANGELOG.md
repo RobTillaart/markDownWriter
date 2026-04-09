@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - use template for tableRowValue()
 - minor edits
 
-
 ## [0.1.0] - 2026-04-02
 - initial version
 
