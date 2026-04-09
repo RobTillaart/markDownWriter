@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - sync readme.md with code
 - improve buffering
 - use template for tableRowValue()
-- catch NULL stream.
 - minor edits
 
 
